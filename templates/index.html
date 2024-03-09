@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Classification</title>
+</head>
+<body>
+    <h1>Image Classification</h1>
+    <form action="/classify" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" multiple>
+        <button type="submit">Classify Image</button>
+    </form>
+    <div id="result">
+        {% if prediction %}
+            <h2>Prediction: {{ prediction }}</h2>
+            <img src="{{ uploaded_image }}" alt="Uploaded Image" width="200">
+        {% endif %}
+    </div>
+</body>
+</html>
