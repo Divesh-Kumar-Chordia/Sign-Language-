@@ -3,7 +3,7 @@ from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
 import os
-
+from translate import Translator
 # Check if the 'temp' directory exists, if not, create it
 if not os.path.exists('temp'):
     os.makedirs('temp')
@@ -51,9 +51,16 @@ def classify():
     predicted_class = Class[predicted_class_index]
 
     # Remove temporary image file
-    os.remove(img_path)
+    # os.remove(img_path)
+# Translate predicted text to Kannada
+    translated_text = translate_text(predicted_class)
+    return render_template('index.html', prediction=translated_text, uploaded_image=img_path)
 
-    return render_template('index.html', prediction=predicted_class, uploaded_image=img_path)
+def translate_text(text):
+    # Translate text to Kannada
+    translator = Translator(to_lang="kn")
+    translated_text = translator.translate(text)
 
+    return translated_text
 if __name__ == '__main__':
     app.run(debug=True)
