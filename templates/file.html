@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Classification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      background-color: #444;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .upload-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .image-grid {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .image-container {
+      width: 250px;
+      height: 250px;
+      background-color: #ccc;
+      margin-right: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .translation-container {
+      background-color: #444;
+      padding: 20px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .audio-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .file-input {
+      position: relative;
+      display: inline-block;
+    }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="/">HOME</a>
+      <a href="#">WEB CAM</a>
+      <a href="https://github.com/Divesh-Kumar-Chordia/Sign-Language-">GitHub</a>
+    </nav>
+  </header>
+
+  <h1>Image Classification</h1>
+
+  <form action="/classify" method="post" enctype="multipart/form-data">
+   
+        <input type="file" name="image" multiple>
+    <button type="submit" class="upload-button">UPLOAD</button>
+  </form>
+
+
+  <div id="result" class="translation-container">
+    {% if prediction %}
+    <p>Translated (kan):{{ prediction }}</p>
+    <p>  </p>
+    <button class="audio-button">audio</button>
+
+    {% endif %}
+  </div>
+  <div class="image-grid">
+    {% if prediction %}
+    <div class="image-container">
+        <img src="{{ url_for('uploaded_file', filename=uploaded_image) }}" alt="Uploaded Image" width="200">
+    </div>
+    {% endif %}
+    </div>
+</body>
+</html>

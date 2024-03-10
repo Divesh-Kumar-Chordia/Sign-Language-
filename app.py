@@ -34,15 +34,18 @@ def preprocess_image(img_path):
 @app.route('/')
 def home():
     return render_template('index.html')
+@app.route('/file')
+def file_page():
+    return render_template('file.html')
 
 @app.route('/classify', methods=['POST'])
 def classify():
     if 'image' not in request.files:
-        return render_template('index.html', prediction=None)
+        return render_template('file.html', prediction=None)
     
     file = request.files['image']
     if file.filename == '':
-        return render_template('index.html', prediction=None)
+        return render_template('file.html', prediction=None)
 
     upload_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
     file.save(upload_path)
@@ -57,7 +60,7 @@ def classify():
 
     # Translate predicted text to Kannada
     translated_text = translate_text(predicted_class)
-    return render_template('index.html', prediction=translated_text, uploaded_image=file.filename)
+    return render_template('file.html', prediction=translated_text, uploaded_image=file.filename)
 
 def translate_text(text):
     # Translate text to Kannada

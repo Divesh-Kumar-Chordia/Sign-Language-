@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Classification</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Language</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #444;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+    .team-member {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+      margin-right: 10px;
+      display: inline-block;
+    }
+  </style>
 </head>
 <body>
-    <h1>Image Classification</h1>
-    <form action="/classify" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" multiple>
-        <button type="submit">Classify Image</button>
-    </form>
-    <div id="result">
-        {% if prediction %}
-            <h2>Prediction: {{ prediction }}</h2>
-            <img src="{{ url_for('uploaded_file', filename=uploaded_image) }}"alt="Uploaded Image" width="200">
-        {% endif %}
-    </div>
+  <header>
+    <nav>
+      <a href="#">WEB CAM</a>
+      <a href="/file">FILE</a>
+      <a href="https://github.com/Divesh-Kumar-Chordia/Sign-Language-">GitHub</a>
+    </nav>
+  </header>
+
+  <section>
+    <h1>Sign Language</h1>
+    <p>"Language is the road map of a culture. It tells you where its people came from and where they are going" - Rita Mae Brown</p>
+  </section>
+
+  <section>
+    <h2>Team</h2>
+    <div class="team-member">Indratej YT </div>
+    <div class="team-member">Divesh Kumar Chordia</div>
+    <div class="team-member">Bhargav</div>
+  </section>
 </body>
 </html>
