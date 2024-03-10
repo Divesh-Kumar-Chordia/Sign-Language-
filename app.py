@@ -1,12 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
 import os
 from translate import Translator
-# Check if the 'temp' directory exists, if not, create it
-if not os.path.exists('temp'):
-    os.makedirs('temp')
+
 app = Flask(__name__)
 
 # Load the model
@@ -17,6 +15,14 @@ img_width, img_height = 256, 256
 
 # Define class labels
 Class = ['1', '2', 'address', 'afternoon', 'bad', 'drink', 'family', 'good']
+
+# Define upload folder
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Check if the 'uploads' directory exists, if not, create it
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 def preprocess_image(img_path):
     img = image.load_img(img_path, target_size=(img_width, img_height))
@@ -38,29 +44,30 @@ def classify():
     if file.filename == '':
         return render_template('index.html', prediction=None)
 
-    # Save uploaded image to a temporary folder
-    img_path = 'temp/temp.jpg'
-    file.save(img_path)
+    upload_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(upload_path)
 
     # Preprocess image
-    img = preprocess_image(img_path)
+    img = preprocess_image(upload_path)
 
     # Perform prediction
     prediction = model.predict(img)
     predicted_class_index = np.argmax(prediction)
     predicted_class = Class[predicted_class_index]
 
-    # Remove temporary image file
-    # os.remove(img_path)
-# Translate predicted text to Kannada
+    # Translate predicted text to Kannada
     translated_text = translate_text(predicted_class)
-    return render_template('index.html', prediction=translated_text, uploaded_image=img_path)
+    return render_template('index.html', prediction=translated_text, uploaded_image=file.filename)
 
 def translate_text(text):
     # Translate text to Kannada
     translator = Translator(to_lang="kn")
     translated_text = translator.translate(text)
-
     return translated_text
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 if __name__ == '__main__':
     app.run(debug=True)

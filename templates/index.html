@@ -14,7 +14,7 @@
     <div id="result">
         {% if prediction %}
             <h2>Prediction: {{ prediction }}</h2>
-            <img src="{{ uploaded_image }}" alt="Uploaded Image" width="200">
+            <img src="{{ url_for('uploaded_file', filename=uploaded_image) }}"alt="Uploaded Image" width="200">
         {% endif %}
     </div>
 </body>
