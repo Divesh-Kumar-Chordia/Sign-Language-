@@ -93,20 +93,36 @@
   </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="/">HOME</a>
-      <a href="/webcam">WEB CAM</a>
-      <a href="https://github.com/Divesh-Kumar-Chordia/Sign-Language-">GitHub</a>
-    </nav>
-  </header>
+    <header>
+        <nav>
+          <a href="/">HOME</a>
+          <a href="/file">FILE</a>
+          <a href="/webcam">WEB CAM</a>
+          <a href="https://github.com/Divesh-Kumar-Chordia/Sign-Language-">GitHub</a>
+        </nav>
+      </header>
 
-  <h1>Image Classification</h1>
+      <h1>Image Classification</h1>
 
-  <form action="/classify" method="post" enctype="multipart/form-data">
-   
-        <input type="file" name="image" multiple>
-    <button type="submit" class="upload-button">UPLOAD</button>
-  </form>
+      
+  <div id="result" class="translation-container">
+    {% if prediction %}
+    <p>Translated (kan):{{ prediction }}</p>
+    <p>  </p>
+    <button class="audio-button">audio</button>
+
+    {% endif %}
+  </div>
+  <div class="image-grid">
+    {% if uploaded_image %}
+    <div class="image-container">
+      {% if uploaded_image %}
+      <img src="data:image/jpeg;base64,{{ uploaded_image }}" alt="Uploaded Image" width="200">
+      {% else %}
+      <p>No image uploaded</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
 </body>
 </html>

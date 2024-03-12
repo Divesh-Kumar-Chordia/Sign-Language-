@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam</title>
+    <style>
+         body {
+      font-family: Arial, sans-serif;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #444;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    section {
+      padding: 20px;
+    }
+
+        #video-container {
+            margin-top: 20px;
+        }
+        #webcam-video {
+            width: 100%;
+        }
+        #capture-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #preview-image {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/">HOME</a>
+            <a href="/file">FILE</a>
+            <a href="https://github.com/Divesh-Kumar-Chordia/Sign-Language-">GitHub</a>
+        </nav>
+    </header>
+    <h1>Webcam</h1>
+    <div id="video-container">
+        <video id="webcam-video" autoplay></video>
+    </div>
+    <button id="capture-button">Capture Photo</button>
+    <form id="prediction-form" action="/classifywebcam" method="POST" style="display: none;">
+        <input type="hidden" id="captured-image" name="image">
+    </form>
+    <script>
+        const video = document.getElementById('webcam-video');
+        const captureButton = document.getElementById('capture-button');
+        const capturedImageInput = document.getElementById('captured-image');
+        const predictionForm = document.getElementById('prediction-form');
+
+        // Access webcam stream
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error('Error accessing webcam:', err);
+            });
+
+        // Capture photo from webcam
+        captureButton.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            const capturedImageData = canvas.toDataURL('image/jpeg');
+            capturedImageInput.value = capturedImageData;
+            video.style.display = 'none';
+            captureButton.style.display = 'none';
+            predictionForm.style.display = 'block';
+            predictionForm.submit();
+        });
+    </script>
+</body>
+</html>
